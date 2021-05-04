@@ -26,8 +26,8 @@ public class RacingTrack {
 	/**
 	 * @return 이동할 것인지에 대한 여부
 	 */
-	protected static boolean randForMove() {
-		return rand(0, 9) >= 4;
+	protected static boolean moveOrNot(int randomValue, int baseline) {
+		return randomValue >= baseline;
 	}
 
 	protected static int rand(int min, int max) {
@@ -37,7 +37,7 @@ public class RacingTrack {
 
 	public void move() {
 		carPositions.forEach((car, position) -> {
-			int moving = randForMove() ? 1 : 0;
+			int moving = moveOrNot(rand(0, 9), 4) ? 1 : 0;
 			carPositions.put(car,  position + moving);
 		});
 	}
