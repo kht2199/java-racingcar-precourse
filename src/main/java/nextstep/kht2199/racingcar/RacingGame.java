@@ -23,6 +23,8 @@ public class RacingGame {
 	private GameState state;
 
 	public RacingGame(List<RacingCar> cars, int moves) {
+		assert cars.size() > 1;
+		assert moves > 1;
 		this.track = new RacingTrack(cars);
 		this.moves = moves;
 		this.printer = new RacingGameConsolePrinter(this, track);
