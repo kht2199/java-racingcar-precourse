@@ -19,40 +19,41 @@ public class RacingGameConsolePrinter {
 
 	private final RacingGame game;
 
-	public RacingGameConsolePrinter(RacingGame game, RacingTrack track) {
+	RacingGameConsolePrinter(RacingGame game, RacingTrack track) {
 		this.track = track;
 		this.game = game;
 	}
 
 	public void print() {
 		if (game.started()) {
-			printStartingMessage(track.findAllCarPositions());
+			out.println(startingMessage(track.findAllCarPositions()));
 			return;
 		}
 		if (game.ended()) {
-			printEndMessage(track.findMaxPositionCars());
+			out.println(endMessage(track.findMaxPositionCars()));
 		}
 	}
 
 	protected String repeat(String ch, int repeat) {
-		assert false;
 		return new String(new char[repeat]).replace("\0", ch);
 	}
 
-	private void printStartingMessage(Map<RacingCar, Integer> carPositions) {
+	protected String startingMessage(Map<RacingCar, Integer> carPositions) {
+		StringBuilder builder = new StringBuilder();
+		//noinspection StringConcatenationInsideStringBufferAppend
 		carPositions.forEach((car, position) ->
-			out.println(car.carName() + " : " + repeat("-", position))
+			builder.append(car.carName() + " : " + repeat("-", position)).append("\n")
 		);
-		out.println();
+		return builder.toString();
 	}
 
-	private void printEndMessage(List<RacingCar> maxPositionCars) {
+	protected String endMessage(List<RacingCar> maxPositionCars) {
 		String[] carNames = new String[maxPositionCars.size()];
 		for (int i = 0; i < maxPositionCars.size(); i++) {
 			RacingCar car = maxPositionCars.get(i);
 			carNames[i] = car.carName();
 		}
-		out.println(String.join(", ", carNames) + "가 최종 우승했습니다.");
+		return String.join(", ", carNames) + "가 최종 우승했습니다.";
 	}
 
 }

@@ -49,4 +49,8 @@ public class RacingGame {
 	public boolean started() {
 		return this.state == GameState.STARTED;
 	}
+
+	public RacingGameConsolePrinter printer() {
+		return printer;
+	}
 }

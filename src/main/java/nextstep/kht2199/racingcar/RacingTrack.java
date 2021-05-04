@@ -16,7 +16,7 @@ public class RacingTrack {
 
 	private final Map<RacingCar, Integer> carPositions;
 
-	public RacingTrack(List<RacingCar> cars) {
+	RacingTrack(List<RacingCar> cars) {
 		assert cars.size() > 0;
 		this.carPositions = new LinkedHashMap<>(cars.size());
 		for (RacingCar car : cars) {
