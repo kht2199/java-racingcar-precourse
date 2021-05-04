@@ -14,24 +14,29 @@ public class RacingGameMain {
 
 	public static void main(String[] args) {
 		String carNames = acceptCarNames();
-		String[] split = carNames.split(",");
 		int moveCount = acceptMoveCount();
-		List<RacingCar> cars = new ArrayList<>();
-		for (String carName : split) {
-			cars.add(new RacingCar(carName));
-		}
+		List<RacingCar> cars = manipulationCarsByNames(carNames.split(","));
 		RacingGame racingGame = new RacingGame(cars, moveCount);
 		racingGame.start();
 	}
 
-	static String acceptCarNames() {
-		while (true) {
-			System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
-			String carNames = SC.nextLine();
-			if (validateCarNames(carNames)) {
-				return carNames;
-			}
+	static List<RacingCar> manipulationCarsByNames(String[] carNames) {
+		List<RacingCar> cars = new ArrayList<>();
+		for (String carName : carNames) {
+			cars.add(new RacingCar(carName.trim()));
 		}
+		return cars;
+	}
+
+	static String acceptCarNames() {
+		boolean validation = false;
+		String carNames = null;
+		while (!validation) {
+			System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
+			carNames = SC.nextLine();
+			validation = validateCarNames(carNames);
+		}
+		return carNames;
 	}
 
 	static int acceptMoveCount() {
@@ -45,11 +50,19 @@ public class RacingGameMain {
 		return counts;
 	}
 
-	private static boolean validateCounts(int counts) {
+	static boolean validateCounts(int counts) {
 		return counts > 5;
 	}
 
-	private static boolean validateCarNames(String carNames) {
-		return carNames.split(",").length > 1;
+	static boolean validateCarNames(String carNames) {
+		if (carNames.split(",").length <= 1) {
+			return false;
+		}
+		for (String carName : carNames.split(",")) {
+			if (carName.trim().length() > 5) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
