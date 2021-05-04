@@ -2,7 +2,7 @@ package nextstep.kht2199.racingcar;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +18,7 @@ public class RacingTrack {
 
 	public RacingTrack(List<RacingCar> cars) {
 		assert cars.size() > 0;
-		this.carPositions = new HashMap<>(cars.size());
+		this.carPositions = new LinkedHashMap<>(cars.size());
 		for (RacingCar car : cars) {
 			this.carPositions.put(car, 0);
 		}

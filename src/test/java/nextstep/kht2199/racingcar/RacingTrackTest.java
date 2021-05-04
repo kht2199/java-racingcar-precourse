@@ -1,10 +1,13 @@
 package nextstep.kht2199.racingcar;
 
+import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -62,6 +65,48 @@ class RacingTrackTest {
 		int positionTo = 10;
 		racingTrack.moveCar(sample, positionTo);
 		assertThat(carPositions.get(sample)).isEqualTo(positionTo);
+	}
+
+	@ParameterizedTest
+	@DisplayName("트랙에서 가장 앞선 자동차의 목록을 조회한다")
+	@MethodSource("findMaxPositionCarsSource")
+	void findMaxPositionCars(String[] carNames, Integer[] moves, String[] winners) {
+		// 초기화
+		List<RacingCar> carList = Arrays.stream(carNames)
+			.map(RacingCar::new)
+			.collect(toList());
+		RacingTrack racingTrack = new RacingTrack(carList);
+		// 이동
+		for (int i = 0, movesLength = moves.length; i < movesLength; i++) {
+			int move = moves[i];
+			racingTrack.moveCar(carList.get(i), move);
+		}
+		// 검증
+		List<String> cars = racingTrack.findMaxPositionCars()
+			.stream().map(RacingCar::carName)
+			.collect(toList());
+		assertThat(cars).containsAll(Arrays.asList(winners.clone()));
+	}
+
+	static Stream<Arguments> findMaxPositionCarsSource() {
+		return Stream.of(
+			Arguments.of(
+				new String[]{"car1", "car2", "car3"},
+				new Integer[]{0, 0, 0},
+				new String[]{"car1", "car2", "car3"}),
+			Arguments.of(
+				new String[]{"car1", "car2", "car3"},
+				new Integer[]{1, 0, 0},
+				new String[]{"car1"}),
+			Arguments.of(
+				new String[]{"car1", "car2", "car3"},
+				new Integer[]{1, 1, 0},
+				new String[]{"car1", "car2"}),
+			Arguments.of(
+				new String[]{"car1", "car2", "car3"},
+				new Integer[]{1, 1, 1},
+				new String[]{"car1", "car2", "car3"})
+		);
 	}
 
 }
