@@ -23,24 +23,23 @@ public class RacingTrack {
 		}
 	}
 
+	/**
+	 * @return 이동할 것인지에 대한 여부
+	 */
+	protected static boolean randForMove() {
+		return rand(0, 9) >= 4;
+	}
+
+	protected static int rand(int min, int max) {
+		assert max > min;
+		return (int) ((Math.random() * (max - min)) + min);
+	}
+
 	public void move() {
 		carPositions.forEach((car, position) -> {
 			int moving = randForMove() ? 1 : 0;
 			carPositions.put(car,  position + moving);
 		});
-	}
-
-
-	/**
-	 * @return 이동할 것인지에 대한 여부
-	 */
-	protected boolean randForMove() {
-		return rand(0, 9) >= 4;
-	}
-
-	protected int rand(int min, int max) {
-		assert max > min;
-		return (int) ((Math.random() * (max - min)) + min);
 	}
 
 	public List<RacingCar> findMaxPositionCars() {
