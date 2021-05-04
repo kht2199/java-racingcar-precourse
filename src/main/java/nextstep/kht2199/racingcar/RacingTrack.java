@@ -17,6 +17,7 @@ public class RacingTrack {
 	private final Map<RacingCar, Integer> carPositions;
 
 	public RacingTrack(List<RacingCar> cars) {
+		assert cars.size() > 0;
 		this.carPositions = new HashMap<>(cars.size());
 		for (RacingCar car : cars) {
 			this.carPositions.put(car, 0);
@@ -38,8 +39,12 @@ public class RacingTrack {
 	public void move() {
 		carPositions.forEach((car, position) -> {
 			int moving = moveOrNot(rand(0, 9), 4) ? 1 : 0;
-			carPositions.put(car,  position + moving);
+			moveCar(car, position + moving);
 		});
+	}
+
+	protected void moveCar(RacingCar car, int position) {
+		carPositions.put(car, position);
 	}
 
 	public List<RacingCar> findMaxPositionCars() {
